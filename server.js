@@ -1,8 +1,6 @@
 const express = require("express");
 const path = require("path");
-const dotenv = require("dotenv");
 
-dotenv.config();
 const app = express();
 
 app.use(express.json());
@@ -19,7 +17,7 @@ app.get("/saved", (req, res) => {
 });
 
 app.get("/api-key", (req, res) => {
-  res.json({ apiKey: process.env.NEWS_API_KEY });
+  res.json({ apiKey: "674217eb438c41da81c972d03132519a" });
 });
 
 app.get("/comments/:articleUrl", (req, res) => {
