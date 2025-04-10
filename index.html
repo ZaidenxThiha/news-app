@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX News Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <input type="text" id="search-box" placeholder="Search news...">
+        <a href="/saved" id="saved-articles-btn">Saved Articles</a>
+    </header>
+    <div id="news-feed"></div>
+    <div id="loading">Loading...</div>
+    <div id="no-results">No results found.</div>
+
+    <div id="news-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">×</span>
+            <div id="modal-body"></div>
+            <button id="save-article-btn">Save for Later</button>
+            <div id="comments-section">
+                <h3>Comments</h3>
+                <div id="comments-list"></div>
+                <textarea id="comment-input" placeholder="Add a comment..."></textarea>
+                <button id="post-comment">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

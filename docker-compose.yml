@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  news-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    container_name: news-app
