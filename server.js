@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
 
-// Load environment variables from .env file
+// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -26,14 +26,19 @@ app.get("/saved", (req, res) => {
 // Fetch news from NewsAPI
 app.get("/api/news", async (req, res) => {
   const { query = "technology", page = 1 } = req.query;
-
-  const apiKey = process.env.NEWS_API_KEY; // 
+  const apiKey = process.env.NEWS_API_KEY; // Use environment variable
+  if (!apiKey) {
+    console.error("NEWS_API_KEY is not set");
+    return res
+      .status(500)
+      .json({ error: "Server configuration error: Missing API key" });
+  }
   const safeQuery = encodeURIComponent(query.trim() || "technology");
   const url = `https://newsapi.org/v2/everything?q=${safeQuery}&page=${page}&pageSize=10&apiKey=${apiKey}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`NewsAPI responded with status: ${response.status}`); 
+      throw new Error(`NewsAPI responded with status: ${response.status}`);
     }
     const data = await response.json();
     res.json(data);
