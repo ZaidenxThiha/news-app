@@ -26,14 +26,13 @@ app.get("/saved", (req, res) => {
 // Fetch news from NewsAPI
 app.get("/api/news", async (req, res) => {
   const { query = "technology", page = 1 } = req.query;
-  const apiKey = "e6ef628f19614327ad9dfce593be8628"; 
+  const apiKey = process.env.NEWS_API_KEY; // 
   const safeQuery = encodeURIComponent(query.trim() || "technology");
   const url = `https://newsapi.org/v2/everything?q=${safeQuery}&page=${page}&pageSize=10&apiKey=${apiKey}`;
-
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`NewsAPI responded with status: ${response.status}`);
+      throw new Error(`NewsAPI responded with status: ${response.status}`); 
     }
     const data = await response.json();
     res.json(data);
