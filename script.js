@@ -118,9 +118,12 @@ function isArticleSaved(articleUrl) {
 
 function showFullNews(article) {
   currentArticleUrl = article.url;
+  const publishedDate = new Date(article.publishedAt).toLocaleDateString();
+  const author = article.author || "Anonymous";
   modalBody.innerHTML = `
-        <img src="${article.urlToImage}" alt="${article.title}">
         <h2>${article.title}</h2>
+        <p class="meta">${publishedDate} | Author by ${author}</p>
+        <img src="${article.urlToImage}" alt="${article.title}">
         <p>${article.description || "No description available"}</p>
         <p>${article.content || "Full content not available via API."}</p>
         <a href="${article.url}" target="_blank" class="see-more">See More</a>
