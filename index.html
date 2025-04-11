@@ -4,30 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJAX News Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <header>
-        <input type="text" id="search-box" placeholder="Search news...">
-        <a href="/saved" id="saved-articles-btn">Saved Articles</a>
+        <h1>AJAX News Dashboard</h1>
+        <nav>
+            <input type="text" id="search-box" placeholder="Search news...">
+            <a href="/saved" id="saved-articles-btn">Saved Articles</a>
+        </nav>
     </header>
-    <div id="news-feed"></div>
-    <div id="loading">Loading...</div>
-    <div id="no-results">No results found.</div>
 
-    <div id="news-modal" class="modal">
-        <div class="modal-content">
-            <span id="close-modal" class="close">×</span>
-            <div id="modal-body"></div>
-            <button id="save-article-btn">Save for Later</button>
-            <div id="comments-section">
-                <h3>Comments</h3>
-                <div id="comments-list"></div>
-                <textarea id="comment-input" placeholder="Add a comment..."></textarea>
-                <button id="post-comment">Post</button>
+    <main class="container">
+        <section class="news">
+            <div id="news-feed"></div>
+            <div id="loading">Loading...</div>
+            <div id="no-results">No results found.</div>
+        </section>
+
+        <div id="news-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close">×</span>
+                <div class="modal-container">
+                    <div class="modal-article">
+                        <div id="modal-body"></div>
+                        <button id="save-article-btn">Save for Later</button>
+                    </div>
+                    <section class="comments">
+                        <h3>Leave a Comment</h3>
+                        <form id="comment-form">
+                            <input type="text" id="name-input" placeholder="Your name" required />
+                            <textarea id="comment-input" placeholder="Comment" required></textarea>
+                            <button type="submit" id="post-comment">Submit</button>
+                        </form>
+                        <div id="comments-list"></div>
+                    </section>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <footer>
+        <p>© AJAX News Dashboard</p>
+    </footer>
 
     <script src="/script.js"></script>
 </body>
