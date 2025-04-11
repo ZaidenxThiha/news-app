@@ -1,308 +1,308 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #dbd4cb;
-    line-height: 1.6;
-    color: #333;
+  font-family: 'Poppins', sans-serif;
+  background-color: #dbd4cb;
+  line-height: 1.6;
+  color: #333;
 }
 
 header {
-    background-color: #b9a185;
-    color: #6b533c;
-    padding: 1rem;
-    text-align: center;
+  background-color: #b9a185;
+  color: #6b533c;
+  padding: 1rem;
+  text-align: center;
 }
 
 header h1 {
-    font-family: 'Brush Script MT', fantasy;
-    font-size: 2rem;
+  font-family: 'Brush Script MT', fantasy;
+  font-size: 2rem;
 }
 
 nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
 nav a {
-    color: #373636;
-    text-decoration: none;
-    font-size: 1rem;
+  color: #373636;
+  text-decoration: none;
+  font-size: 1rem;
 }
 
 #search-box {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: #fff;
-    color: #333;
-    outline: none;
-    width: 100%;
-    max-width: 300px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  color: #333;
+  outline: none;
+  width: 100%;
+  max-width: 300px;
 }
 
 #saved-articles-btn {
-    padding: 0.6rem 1rem;
-    background: #00ccff;
-    color: #1a1a1a;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
+  padding: 0.6rem 1rem;
+  background: #00ccff;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 1rem;
-    gap: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .news {
-    flex: 2;
-    background: #ccc1b3;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  flex: 2;
+  background: #ccc1b3;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 #news-feed {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
 }
 
 .article {
-    background: #2a2a2a;
-    border-radius: 10px;
-    padding: 1rem;
-    transition: transform 0.2s;
-    cursor: pointer;
+  background: #2a2a2a;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: transform 0.2s;
+  cursor: pointer;
 }
 
 .article:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .article img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
 }
 
 .article h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: #00ccff;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #00ccff;
 }
 
 .article p {
-    font-size: 0.9rem;
-    color: #ccc;
+  font-size: 0.9rem;
+  color: #ccc;
 }
 
 #loading {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #00ccff;
-    margin: 1rem 0;
-    display: none;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #00ccff;
+  margin: 1rem 0;
+  display: none;
 }
 
 #no-results {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #ff4444;
-    margin: 1rem 0;
-    display: none;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ff4444;
+  margin: 1rem 0;
+  display: none;
 }
 
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
 }
 
 .modal-content {
-    background: #ccc1b3;
-    margin: 5% auto;
-    padding: 1.5rem;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 900px;
-    max-height: 80vh;
-    overflow-y: auto;
+  background: #ccc1b3;
+  margin: 5% auto;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .modal-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .modal-article {
-    flex: 2;
-    min-width: 300px;
+  flex: 2;
+  min-width: 300px;
 }
 
 .close {
-    color: #333;
-    float: right;
-    font-size: 1.8rem;
-    font-weight: bold;
-    cursor: pointer;
+  color: #333;
+  float: right;
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .close:hover {
-    color: #00ccff;
+  color: #00ccff;
 }
 
 #modal-body img {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin: 1rem 0;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin: 1rem 0;
 }
 
 #modal-body h2 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
 #modal-body .meta {
-    color: #666;
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
+  color: #666;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 #modal-body p {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 #modal-body .see-more {
-    display: inline-block;
-    padding: 0.6rem 1rem;
-    background: #00ccff;
-    color: #1a1a1a;
-    text-decoration: none;
-    border-radius: 5px;
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  background: #00ccff;
+  color: #1a1a1a;
+  text-decoration: none;
+  border-radius: 5px;
 }
 
 #save-article-btn {
-    padding: 0.6rem 1rem;
-    background: #ff4444;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 1rem 0;
+  padding: 0.6rem 1rem;
+  background: #ff4444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 1rem 0;
 }
 
 #save-article-btn.saved {
-    background: #00ccff;
+  background: #00ccff;
 }
 
 .comments {
-    flex: 1;
-    min-width: 250px;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 250px;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .comments h3 {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
 #comments-list {
-    max-height: 200px;
-    overflow-y: auto;
-    margin: 1rem 0;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 1rem 0;
 }
 
 .comment {
-    background: #e0d8d1;
-    padding: 0.5rem;
-    border-radius: 5px;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #ddd;
+  background: #e0d8d1;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #ddd;
 }
 
 #comment-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 #comment-form input,
 #comment-form textarea {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 #comment-form textarea {
-    resize: none;
+  resize: none;
 }
 
 #post-comment {
-    padding: 0.6rem;
-    background: #b9a185;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 0.6rem;
+  background: #b9a185;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 footer {
-    background-color: #b9a185;
-    color: #373636;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
+  background-color: #b9a185;
+  color: #373636;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
+  .container {
+    flex-direction: column;
+  }
 
-    .news {
-        flex: 1 1 100%;
-    }
+  .news {
+    flex: 1 1 100%;
+  }
 
-    .modal-container {
-        flex-direction: column;
-    }
+  .modal-container {
+    flex-direction: column;
+  }
 
-    .modal-article,
-    .comments {
-        flex: 1 1 100%;
-    }
+  .modal-article,
+  .comments {
+    flex: 1 1 100%;
+  }
 }

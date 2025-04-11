@@ -7,3 +7,5 @@ services:
     ports:
       - "3001:3001"
     container_name: news-app
+    environment:
+      - NEWS_API_KEY=e6ef628f19614327ad9dfce593be8628

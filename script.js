@@ -1,4 +1,3 @@
-let apiKey;
 const feed = document.getElementById("news-feed");
 const loading = document.getElementById("loading");
 const noResults = document.getElementById("no-results");
@@ -11,39 +10,43 @@ const commentInput = document.getElementById("comment-input");
 const postCommentBtn = document.getElementById("post-comment");
 const saveArticleBtn = document.getElementById("save-article-btn");
 const savedArticlesFeed = document.getElementById("saved-articles-feed");
+
+console.log("News feed element:", feed); // Debug: Verify feed element
+
 let page = 1;
 let query = "";
 let isLoading = false;
 let currentArticleUrl = "";
 let pollingInterval;
 
-async function fetchApiKey() {
-  try {
-    const response = await fetch("/api-key");
-    if (!response.ok) throw new Error("Failed to fetch API key");
-    const data = await response.json();
-    return data.apiKey;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
 async function fetchNews(query = "", page = 1) {
+  const articles = [];
+  const safeQuery = encodeURIComponent(query.trim() || "technology");
+
   try {
-    const url = `https://newsapi.org/v2/everything?q=${
-      query || "latest"
-    }&page=${page}&pageSize=20&apiKey=${apiKey}`;
-    const response = await fetch(url);
+    const response = await fetch(`/api/news?query=${safeQuery}&page=${page}`);
     if (!response.ok) throw new Error("Failed to fetch news");
     const data = await response.json();
-    return data.articles.filter(
-      (article) => article.urlToImage && article.urlToImage.trim() !== ""
-    );
+    console.log("Fetched data:", data); // Debug: Raw response
+    if (data.articles && Array.isArray(data.articles)) {
+      const cleaned = data.articles.map((article) => ({
+        title: article.title,
+        description: article.description || "No description available",
+        image: article.urlToImage || "https://via.placeholder.com/300",
+        url: article.url,
+        author: article.author || "Unknown",
+        publishedAt: article.publishedAt || new Date().toISOString(),
+        source: "NewsAPI",
+      }));
+      articles.push(...cleaned);
+    } else {
+      console.warn("No articles returned from server", data);
+    }
   } catch (error) {
-    console.error(error);
-    return [];
+    console.error("Failed to fetch news:", error);
   }
+  console.log("Processed articles:", articles); // Debug: Filtered articles
+  return articles;
 }
 
 async function fetchComments(articleUrl) {
@@ -71,14 +74,15 @@ async function postComment(articleUrl, text) {
 }
 
 function displayNews(articles, container) {
+  console.log("Displaying articles:", articles); // Debug
   articles.forEach((article) => {
     const div = document.createElement("div");
     div.className = "article";
     div.innerHTML = `
-            <img src="${article.urlToImage}" alt="${article.title}">
-            <h2>${article.title}</h2>
-            <p>${article.description || "No description available"}</p>
-        `;
+      <img src="${article.image}" alt="${article.title}">
+      <h2>${article.title}</h2>
+      <p>${article.description || "No description available"}</p>
+    `;
     div.addEventListener("click", () => showFullNews(article));
     container.appendChild(div);
   });
@@ -120,14 +124,19 @@ function showFullNews(article) {
   currentArticleUrl = article.url;
   const publishedDate = new Date(article.publishedAt).toLocaleDateString();
   const author = article.author || "Anonymous";
+  const image = article.image;
+
   modalBody.innerHTML = `
-        <h2>${article.title}</h2>
-        <p class="meta">${publishedDate} | Author by ${author}</p>
-        <img src="${article.urlToImage}" alt="${article.title}">
-        <p>${article.description || "No description available"}</p>
-        <p>${article.content || "Full content not available via API."}</p>
-        <a href="${article.url}" target="_blank" class="see-more">See More</a>
-    `;
+    <h2>${article.title}</h2>
+    <p class="meta">${publishedDate} | Author: ${author} | Source: ${
+    article.source
+  }</p>
+    <img src="${image}" alt="${article.title}">
+    <p>${article.description || "No description available"}</p>
+    <p>${article.content || "Full content not available via API."}</p>
+    <a href="${article.url}" target="_blank" class="see-more">See More</a>
+  `;
+
   modal.style.display = "block";
   fetchComments(currentArticleUrl).then(displayComments);
   pollingInterval = setInterval(
@@ -194,6 +203,7 @@ async function loadNews(clearFeed = false) {
   }
 
   const articles = await fetchNews(query, page);
+  console.log("Articles to display:", articles); // Debug
   if (articles.length === 0 && page === 1) {
     noResults.style.display = "block";
   } else {
@@ -226,16 +236,5 @@ if (searchBox) {
   });
 }
 
-fetchApiKey().then((key) => {
-  if (key) {
-    apiKey = key;
-    if (feed) {
-      loadNews();
-    } else if (savedArticlesFeed) {
-      loadSavedArticles();
-    }
-  } else {
-    noResults.textContent = "Error: Could not load API key";
-    noResults.style.display = "block";
-  }
-});
+// Trigger initial load
+loadNews(true);
