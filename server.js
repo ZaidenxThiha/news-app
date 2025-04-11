@@ -26,7 +26,7 @@ app.get("/saved", (req, res) => {
 // Fetch news from NewsAPI
 app.get("/api/news", async (req, res) => {
   const { query = "technology", page = 1 } = req.query;
-  const apiKey = "e6ef628f19614327ad9dfce593be8628"; 
+  const apiKey = "12ceef88bb7f43f0bb626a626fbd0dde"; 
   const safeQuery = encodeURIComponent(query.trim() || "technology");
   const url = `https://newsapi.org/v2/everything?q=${safeQuery}&page=${page}&pageSize=10&apiKey=${apiKey}`;
 
