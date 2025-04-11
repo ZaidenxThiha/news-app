@@ -19,6 +19,9 @@ let isLoading = false;
 let currentArticleUrl = "";
 let pollingInterval;
 
+// Check if we're on the saved articles page
+const isSavedPage = window.location.pathname.includes("saved");
+
 async function fetchNews(query = "", page = 1) {
   const articles = [];
   const safeQuery = encodeURIComponent(query.trim() || "technology");
@@ -158,6 +161,11 @@ function showFullNews(article) {
       saveArticleBtn.textContent = "Unsave";
       saveArticleBtn.classList.add("saved");
     }
+    // Refresh saved articles feed if on saved page
+    if (isSavedPage) {
+      savedArticlesFeed.innerHTML = "";
+      loadSavedArticles();
+    }
   };
 }
 
@@ -166,6 +174,7 @@ function loadSavedArticles() {
   if (savedArticles.length === 0) {
     noResults.style.display = "block";
   } else {
+    noResults.style.display = "none";
     displayNews(savedArticles, savedArticlesFeed);
   }
 }
@@ -214,27 +223,32 @@ async function loadNews(clearFeed = false) {
   isLoading = false;
 }
 
-window.addEventListener("scroll", () => {
-  if (
-    window.scrollY + window.innerHeight >= document.body.offsetHeight - 100 &&
-    !isLoading &&
-    feed
-  ) {
-    page++;
-    loadNews();
-  }
-});
-
-if (searchBox) {
-  let searchTimeout;
-  searchBox.addEventListener("input", () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      query = searchBox.value.trim();
-      loadNews(true);
-    }, 500);
+if (!isSavedPage) {
+  window.addEventListener("scroll", () => {
+    if (
+      window.scrollY + window.innerHeight >= document.body.offsetHeight - 100 &&
+      !isLoading &&
+      feed
+    ) {
+      page++;
+      loadNews();
+    }
   });
-}
 
-// Trigger initial load
-loadNews(true);
+  if (searchBox) {
+    let searchTimeout;
+    searchBox.addEventListener("input", () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        query = searchBox.value.trim();
+        loadNews(true);
+      }, 500);
+    });
+  }
+
+  // Trigger initial load for news feed
+  loadNews(true);
+} else {
+  // Load saved articles for saved page
+  loadSavedArticles();
+}
