@@ -7,27 +7,50 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <input type="text" id="search-box" placeholder="Search saved articles..." style="display: none;">
-    <a href="/" id="back-to-home-btn">Back to Home</a>
+    <h1>News Dashboard</h1>
+    <nav>
+      <a href="/" id="back-to-home-btn">Back to Home</a>
+      <a href="/saved" id="saved-articles-btn">Saved Articles</a>
+    </nav>
   </header>
-  <div id="saved-articles-feed"></div>
-  <div id="loading" style="display: none;">Loading...</div>
-  <div id="no-results">No saved articles yet.</div>
 
+  <!-- Main Content -->
+  <main class="main-content">
+    <section class="article-list">
+      <div id="saved-articles-feed"></div>
+      <div id="loading" style="display: none;">Loading...</div>
+      <div id="no-results">No saved articles yet.</div>
+    </section>
+  </main>
+
+  <!-- Modal -->
   <div id="news-modal" class="modal">
     <div class="modal-content">
       <span id="close-modal" class="close">×</span>
-      <div id="modal-body"></div>
-      <button id="save-article-btn">Save for Later</button>
-      <div id="comments-section">
-        <h3>Comments</h3>
-        <div id="comments-list"></div>
-        <textarea id="comment-input" placeholder="Add a comment..."></textarea>
-        <button id="post-comment">Post</button>
+      <div class="modal-container">
+        <div class="modal-article">
+          <div id="modal-body"></div>
+          <button id="save-article-btn">Save for Later</button>
+        </div>
+        <section class="comments">
+          <h3>Comments</h3>
+          <div id="comments-list"></div>
+          <form id="comment-form">
+            <input type="text" id="name-input" placeholder="Your name" required />
+            <textarea id="comment-input" placeholder="Add a comment..." required></textarea>
+            <button type="submit" id="post-comment">Post</button>
+          </form>
+        </section>
       </div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 AJAX News Dashboard</p>
+  </footer>
 
   <script src="/script.js"></script>
 </body>
