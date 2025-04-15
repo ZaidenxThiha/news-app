@@ -2,9 +2,7 @@ const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
 
-// Load environment variables
 dotenv.config();
-
 const app = express();
 
 app.use(express.json());
@@ -23,29 +21,49 @@ app.get("/saved", (req, res) => {
   res.sendFile(path.join(__dirname, "saved.html"));
 });
 
-// Fetch news from NewsAPI
+// Fetch news from NewsAPI with multiple key fallback
 app.get("/api/news", async (req, res) => {
   const { query = "technology", page = 1 } = req.query;
-  const apiKey = process.env.NEWS_API_KEY; // Use environment variable
-  if (!apiKey) {
-    console.error("NEWS_API_KEY is not set");
+  const apiKeys = [
+    process.env.NEWS_API_KEY_1,
+    process.env.NEWS_API_KEY_2,
+    process.env.NEWS_API_KEY_3,
+    process.env.NEWS_API_KEY_4,
+    process.env.NEWS_API_KEY_5,
+  ].filter((key) => key); // Remove undefined keys
+
+  if (apiKeys.length === 0) {
+    console.error("No NEWS_API_KEYs set");
     return res
       .status(500)
-      .json({ error: "Server configuration error: Missing API key" });
+      .json({ error: "Server configuration error: Missing API keys" });
   }
+
   const safeQuery = encodeURIComponent(query.trim() || "technology");
-  const url = `https://newsapi.org/v2/everything?q=${safeQuery}&page=${page}&pageSize=10&apiKey=${apiKey}`;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`NewsAPI responded with status: ${response.status}`);
+
+  for (const apiKey of apiKeys) {
+    const url = `https://newsapi.org/v2/everything?q=${safeQuery}&page=${page}&pageSize=10&apiKey=${apiKey}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`NewsAPI responded with status: ${response.status}`);
+      }
+      const data = await response.json();
+      return res.json(data); // Success, return data
+    } catch (error) {
+      console.error(
+        `Failed with key ending in ${apiKey.slice(-4)}:`,
+        error.message
+      );
+      // Continue to next key
     }
-    const data = await response.json();
-    res.json(data);
-  } catch (error) {
-    console.error("Failed to fetch news:", error);
-    res.status(500).json({ error: "Failed to fetch news" });
   }
+
+  // All keys failed
+  console.error("All API keys failed");
+  res
+    .status(500)
+    .json({ error: "Failed to fetch news with all provided keys" });
 });
 
 // Fetch comments for an article
