@@ -74,12 +74,16 @@ app.get("/comments/:articleUrl", (req, res) => {
 
 // Post a comment for an article
 app.post("/comments", (req, res) => {
-  const { articleUrl, text } = req.body;
-  if (!articleUrl || !text) {
-    return res.status(400).json({ error: "Missing articleUrl or text" });
+  const { articleUrl, name, text } = req.body;
+  if (!articleUrl || !name || !text) {
+    return res.status(400).json({ error: "Missing articleUrl, name, or text" });
   }
   if (!comments[articleUrl]) comments[articleUrl] = [];
-  comments[articleUrl].push({ text, timestamp: new Date().toISOString() });
+  comments[articleUrl].push({
+    name,
+    text,
+    timestamp: new Date().toISOString(),
+  });
   res.status(201).send();
 });
 

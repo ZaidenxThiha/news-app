@@ -10,3 +10,4 @@
 4. Run:
    ```bash
    docker-compose up --build
+5. Test at http://localhost:3001/

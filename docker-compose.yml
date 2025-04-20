@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: news-app-news-app
     ports:
       - "3001:3001"
     container_name: news-app

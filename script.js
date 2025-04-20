@@ -7,8 +7,8 @@ const modalBody = document.getElementById("modal-body");
 const closeModal = document.getElementById("close-modal");
 const commentsList = document.getElementById("comments-list");
 const commentInput = document.getElementById("comment-input");
+const nameInput = document.getElementById("name-input");
 const postCommentBtn = document.getElementById("post-comment");
-const saveArticleBtn = document.getElementById("save-article-btn");
 const savedArticlesFeed = document.getElementById("saved-articles-feed");
 
 console.log("News feed element:", feed); // Debug: Verify feed element
@@ -46,7 +46,7 @@ async function fetchNews(query = "", page = 1) {
       console.warn("No articles returned from server", data);
     }
   } catch (error) {
-    console.error("Failed to fetch news:", error);
+    console.error("Fetch news error:", error);
   }
   console.log("Processed articles:", articles); // Debug: Filtered articles
   return articles;
@@ -58,21 +58,21 @@ async function fetchComments(articleUrl) {
     if (!response.ok) throw new Error("Failed to fetch comments");
     return await response.json();
   } catch (error) {
-    console.error(error);
+    console.error("Fetch comments error:", error);
     return [];
   }
 }
 
-async function postComment(articleUrl, text) {
+async function postComment(articleUrl, name, text) {
   try {
     const response = await fetch("/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ articleUrl, text }),
+      body: JSON.stringify({ articleUrl, name, text }),
     });
     if (!response.ok) throw new Error("Failed to post comment");
   } catch (error) {
-    console.error(error);
+    console.error("Post comment error:", error);
   }
 }
 
@@ -96,7 +96,7 @@ function displayComments(comments) {
   comments.forEach((comment) => {
     const div = document.createElement("div");
     div.className = "comment";
-    div.textContent = comment.text;
+    div.innerHTML = `<strong>${comment.name}</strong>: ${comment.text}`;
     commentsList.appendChild(div);
   });
   commentsList.scrollTop = commentsList.scrollHeight;
@@ -128,6 +128,7 @@ function showFullNews(article) {
   const publishedDate = new Date(article.publishedAt).toLocaleDateString();
   const author = article.author || "Anonymous";
   const image = article.image;
+  const isSaved = isArticleSaved(article.url);
 
   modalBody.innerHTML = `
     <h2>${article.title}</h2>
@@ -137,7 +138,14 @@ function showFullNews(article) {
     <img src="${image}" alt="${article.title}">
     <p>${article.description || "No description available"}</p>
     <p>${article.content || "Full content not available via API."}</p>
-    <a href="${article.url}" target="_blank" class="see-more">See More</a>
+    <div class="button-container">
+      <button class="see-more" onclick="window.open('${
+        article.url
+      }', '_blank')">See More</button>
+      <button id="save-article-btn" class="save-article-btn ${
+        isSaved ? "saved" : ""
+      }">${isSaved ? "Unsave" : "Save for Later"}</button>
+    </div>
   `;
 
   modal.style.display = "block";
@@ -147,10 +155,8 @@ function showFullNews(article) {
     2000
   );
 
-  saveArticleBtn.textContent = isArticleSaved(article.url)
-    ? "Unsave"
-    : "Save for Later";
-  saveArticleBtn.classList.toggle("saved", isArticleSaved(article.url));
+  // Reattach event listener for save button
+  const saveArticleBtn = document.getElementById("save-article-btn");
   saveArticleBtn.onclick = () => {
     if (isArticleSaved(article.url)) {
       removeArticle(article.url);
@@ -179,11 +185,14 @@ function loadSavedArticles() {
   }
 }
 
-postCommentBtn.addEventListener("click", () => {
+postCommentBtn.addEventListener("click", (e) => {
+  e.preventDefault(); // Prevent form submission
   const commentText = commentInput.value.trim();
-  if (commentText && currentArticleUrl) {
-    postComment(currentArticleUrl, commentText);
+  const commenterName = nameInput.value.trim();
+  if (commentText && commenterName && currentArticleUrl) {
+    postComment(currentArticleUrl, commenterName, commentText);
     commentInput.value = "";
+    nameInput.value = "";
     fetchComments(currentArticleUrl).then(displayComments);
   }
 });
